@@ -54,10 +54,10 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 		iter := i // closure feature
 		g.Go(func() error {
 			ctx, cancel := context.WithCancel(ctx)
+			defer cancel()
 			// requesting body of every url
 			body, err := s.client.GetData(ctx, urls[iter])
 			if err != nil {
-				cancel()
 				return errors.Wrap(httperrors.ErrURLHandle, err.Error())
 			}
 

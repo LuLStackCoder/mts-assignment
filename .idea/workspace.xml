@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13f661f5-fc0e-4f0e-81d2-de40981fcf4e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pkg/api/api.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/api/api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/api/api_easyjson.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/api/api_easyjson.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/httperrors/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/httperrors/errors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/httperrors/ui.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/httperrors/ui.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/httpserver/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/httpserver/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/httpserver/transport.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/httpserver/transport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/instrumenting.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/instrumenting.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/service/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/logging.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/service/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/urlclient/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/urlclient/client.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,25 +79,25 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="453" y="123" key="#com.intellij.ide.util.MemberChooser/0.0.1280.800@0.0.1280.800" timestamp="1606655182473" />
-    <state width="1238" height="386" key="GridCell.Tab.0.bottom" timestamp="1606674060429">
+    <state width="1238" height="386" key="GridCell.Tab.0.bottom" timestamp="1606686178324">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="386" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1606674060429" />
+    <state width="1238" height="386" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1606686178324" />
     <state width="1238" height="386" key="GridCell.Tab.0.bottom/0.23.1280.721@0.23.1280.721" timestamp="1606660082152" />
-    <state width="1238" height="386" key="GridCell.Tab.0.center" timestamp="1606674060427">
+    <state width="1238" height="386" key="GridCell.Tab.0.center" timestamp="1606686178322">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="386" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1606674060427" />
+    <state width="1238" height="386" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1606686178322" />
     <state width="1238" height="386" key="GridCell.Tab.0.center/0.23.1280.721@0.23.1280.721" timestamp="1606660082148" />
-    <state width="1238" height="386" key="GridCell.Tab.0.left" timestamp="1606674060427">
+    <state width="1238" height="386" key="GridCell.Tab.0.left" timestamp="1606686178321">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="386" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1606674060427" />
+    <state width="1238" height="386" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1606686178321" />
     <state width="1238" height="386" key="GridCell.Tab.0.left/0.23.1280.721@0.23.1280.721" timestamp="1606660082147" />
-    <state width="1238" height="386" key="GridCell.Tab.0.right" timestamp="1606674060428">
+    <state width="1238" height="386" key="GridCell.Tab.0.right" timestamp="1606686178323">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="386" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1606674060428" />
+    <state width="1238" height="386" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1606686178323" />
     <state width="1238" height="386" key="GridCell.Tab.0.right/0.23.1280.721@0.23.1280.721" timestamp="1606660082151" />
     <state x="322" y="110" width="717" height="690" key="find.popup" timestamp="1606672245561">
       <screen x="0" y="0" width="1280" height="800" />
