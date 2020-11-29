@@ -27,9 +27,6 @@ type service struct {
 }
 
 func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
-	// creation errgroup for convenient goroutine handling
-	g, ctx := errgroup.WithContext(ctx)
-	data = make([]api.URLData, len(urls))
 	// check len urls
 	if len(urls) == 0 {
 		err = httperrors.ErrZeroURLs
@@ -49,6 +46,11 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 			return
 		}
 	}
+
+	// creation errgroup for convenient goroutine handling
+	g, ctx := errgroup.WithContext(ctx)
+
+	data = make([]api.URLData, len(urls))
 
 	for i := range urls {
 		iter := i // closure feature
