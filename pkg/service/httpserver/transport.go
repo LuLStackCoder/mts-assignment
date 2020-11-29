@@ -14,7 +14,7 @@ import (
 // HandleUrlsTransport transport interface
 type HandleUrlsTransport interface {
 	DecodeRequest(ctx context.Context, r *fasthttp.Request) (urls []string, err error)
-	EncodeResponse(ctx context.Context, r *fasthttp.Response, data []api.URLData, errorFlag bool, errorText string) (err error)
+	EncodeResponse(ctx context.Context, r *fasthttp.Response, data []api.URLData) (err error)
 }
 
 type handleUrlsTransport struct {
@@ -35,16 +35,12 @@ func (t *handleUrlsTransport) DecodeRequest(ctx context.Context, r *fasthttp.Req
 }
 
 // EncodeResponse method for encoding response on server side
-func (t *handleUrlsTransport) EncodeResponse(ctx context.Context, r *fasthttp.Response, data []api.URLData, errorFlag bool, errorText string) (err error) {
+func (t *handleUrlsTransport) EncodeResponse(ctx context.Context, r *fasthttp.Response, data []api.URLData) (err error) {
 
 	r.Header.Set("Content-Type", "application/json")
 	var theResponse api.HandleUrlsResponse
 
 	theResponse.Data = data
-
-	theResponse.ErrorFlag = errorFlag
-
-	theResponse.ErrorText = errorText
 
 	body, err := theResponse.MarshalJSON()
 	if err != nil {

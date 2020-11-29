@@ -2,6 +2,7 @@ package urlclient
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -24,11 +25,16 @@ func (s *Client) GetData(ctx context.Context, url string) (data []byte, err erro
 		return
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return data, fmt.Errorf("status code %d for url %s", resp.StatusCode, url)
+	}
+
+	defer resp.Body.Close()
+
 	data, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return
 	}
-	err = resp.Body.Close()
 
 	return
 }

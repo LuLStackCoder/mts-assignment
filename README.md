@@ -1,4 +1,15 @@
 Тестовое задание:
+example:
+POST http://localhost:8080/api/v1/handle
+Body:
+[
+    "https://www.twitch.tv",
+    "https://ozon.ru",
+    "https://yandex.ru",
+    "https://github.com",
+    "https://yandex.ru"
+]
+
 - [x] - 1.приложение представляет собой http-сервер с одним хендлером
 - [x] - 2.хендлер на вход получает POST-запрос со списком url в json-формате
 - [x] - 3.сервер запрашивает данные по всем этим url и возвращает результат клиенту в json-формате

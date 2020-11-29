@@ -15,6 +15,7 @@ var (
 	ErrZeroURLs  = errors.New("number of urls is zero")
 	ErrLimitURLs = errors.New("number of urls over maxUrls")
 	ErrURLHandle = errors.New("error to handle url")
+	ErrParseURL  = errors.New("error to parse url")
 )
 
 // StatusMap for status codes
@@ -24,6 +25,7 @@ var (
 		ErrFailedToEncodeJSON: 400,
 		ErrZeroURLs:           400,
 		ErrLimitURLs:          400,
+		ErrParseURL:           400,
 		ErrURLHandle:          500,
 	}
 )

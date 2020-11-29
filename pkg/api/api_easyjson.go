@@ -132,10 +132,6 @@ func easyjsonC1cedd36DecodeGithubComLuLStackCoderMtsAssignmentPkgApi1(in *jlexer
 				}
 				in.Delim(']')
 			}
-		case "error":
-			out.ErrorFlag = bool(in.Bool())
-		case "errorText":
-			out.ErrorText = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -165,16 +161,6 @@ func easyjsonC1cedd36EncodeGithubComLuLStackCoderMtsAssignmentPkgApi1(out *jwrit
 			}
 			out.RawByte(']')
 		}
-	}
-	{
-		const prefix string = ",\"error\":"
-		out.RawString(prefix)
-		out.Bool(bool(in.ErrorFlag))
-	}
-	{
-		const prefix string = ",\"errorText\":"
-		out.RawString(prefix)
-		out.String(string(in.ErrorText))
 	}
 	out.RawByte('}')
 }

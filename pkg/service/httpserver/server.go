@@ -10,7 +10,7 @@ import (
 )
 
 type service interface {
-	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error)
+	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error)
 }
 
 type handleUrls struct {
@@ -25,8 +25,6 @@ func (s *handleUrls) ServeHTTP(ctx *fasthttp.RequestCtx) {
 	var (
 		urls      []string
 		data      []api.URLData
-		errorFlag bool
-		errorText string
 		err       error
 	)
 	// propagate timeout for request
@@ -39,13 +37,13 @@ func (s *handleUrls) ServeHTTP(ctx *fasthttp.RequestCtx) {
 		return
 	}
 	// service logic
-	data, errorFlag, errorText, err = s.service.HandleUrls(tCtx, urls)
+	data, err = s.service.HandleUrls(tCtx, urls)
 	if err != nil {
 		s.errorProcessor.Encode(tCtx, &ctx.Response, err)
 		return
 	}
 	// encode from data to json
-	if err = s.transport.EncodeResponse(tCtx, &ctx.Response, data, errorFlag, errorText); err != nil {
+	if err = s.transport.EncodeResponse(tCtx, &ctx.Response, data); err != nil {
 		s.errorProcessor.Encode(tCtx, &ctx.Response, err)
 		return
 	}

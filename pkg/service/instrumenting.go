@@ -18,7 +18,7 @@ type instrumentingMiddleware struct {
 }
 
 // HandleUrls ...
-func (s *instrumentingMiddleware) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error) {
+func (s *instrumentingMiddleware) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
 	defer s.recordMetrics("HandleUrls", time.Now(), err)
 	return s.svc.HandleUrls(ctx, urls)
 }

@@ -14,8 +14,4 @@ type HandleUrlsRequest []string
 //easyjson:json
 type HandleUrlsResponse struct {
 	Data []URLData `json:"data"`
-
-	ErrorFlag bool `json:"error"`
-
-	ErrorText string `json:"errorText"`
 }

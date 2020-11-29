@@ -17,14 +17,12 @@ type loggingMiddleware struct {
 }
 
 // HandleUrls ...
-func (s *loggingMiddleware) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error) {
+func (s *loggingMiddleware) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
 	defer func(begin time.Time) {
 		_ = s.wrap(err).Log(
 			"method", "HandleUrls",
 			"urls", urls,
 			"data", data,
-			"errorFlag", errorFlag,
-			"errorText", errorText,
 			"err", err,
 			"elapsed", time.Since(begin),
 		)

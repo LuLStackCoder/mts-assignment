@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"net/url"
 
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
@@ -17,7 +18,7 @@ type URLClient interface {
 
 // Service implements the service logic
 type Service interface {
-	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error)
+	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error)
 }
 
 type service struct {
@@ -25,7 +26,7 @@ type service struct {
 	maxUrls int
 }
 
-func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error) {
+func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
 	// creation errgroup for convenient goroutine handling
 	g, ctx := errgroup.WithContext(ctx)
 	data = make([]api.URLData, len(urls))
@@ -38,6 +39,15 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 	if len(urls) > s.maxUrls {
 		err = httperrors.ErrLimitURLs
 		return
+	}
+
+	// validating urls
+	for i := range urls {
+		_, err = url.Parse(urls[i])
+		if err != nil {
+			err = errors.Wrap(httperrors.ErrParseURL, err.Error())
+			return
+		}
 	}
 
 	for i := range urls {
