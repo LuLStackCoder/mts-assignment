@@ -41,7 +41,7 @@ type configuration struct {
 	// 7.таймаут на обработку одного входящего запроса - 10000 миллисекунд
 	InTimeout time.Duration `envconfig:"IN_TIMEOUT" default:"10s"`
 	// 8.таймаут на запрос одного url - 500 миллисекунд
-	GetTimeout time.Duration `envconfig:"GET_TIMEOUT" default:"5000ms"`
+	GetTimeout time.Duration `envconfig:"GET_TIMEOUT" default:"500ms"`
 
 	MetricsNamespace string `envconfig:"METRICS_NAMESPACE" default:"mts"`
 	MetricsSubsystem string `envconfig:"METRICS_SUBSYSTEM" default:"mts_assignment"`

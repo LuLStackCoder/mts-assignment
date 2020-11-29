@@ -12,7 +12,7 @@ import (
 
 // URLClient interface represent the client for getting data
 type URLClient interface {
-	GetData(ctx context.Context, url string, cancel context.CancelFunc) (data []byte, err error)
+	GetData(ctx context.Context, url string) (data []byte, err error)
 }
 
 // Service implements the service logic
@@ -26,7 +26,7 @@ type service struct {
 }
 
 func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, errorFlag bool, errorText string, err error) {
-	// creation errgroup for convenient
+	// creation errgroup for convenient goroutine handling
 	g, ctx := errgroup.WithContext(ctx)
 	data = make([]api.URLData, len(urls))
 	// check len urls
@@ -45,7 +45,7 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 		g.Go(func() error {
 			ctx, cancel := context.WithCancel(ctx)
 			// requesting body of every url
-			body, err := s.client.GetData(ctx, urls[iter], cancel)
+			body, err := s.client.GetData(ctx, urls[iter])
 			if err != nil {
 				cancel()
 				return errors.Wrap(httperrors.ErrURLHandle, err.Error())
