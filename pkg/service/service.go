@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 
 	"github.com/pkg/errors"
@@ -55,8 +56,6 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 	for i := range urls {
 		iter := i // closure feature
 		g.Go(func() error {
-			ctx, cancel := context.WithCancel(ctx)
-			defer cancel()
 			// requesting body of every url
 			body, err := s.client.GetData(ctx, urls[iter])
 			if err != nil {
@@ -69,7 +68,9 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 	}
 
 	err = g.Wait()
-
+	for i := range data {
+		fmt.Printf("%#+v\n", data[i].URL)
+	}
 	return
 }
 
