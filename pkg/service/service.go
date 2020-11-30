@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"net/url"
 
 	"github.com/pkg/errors"
@@ -68,9 +67,7 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 	}
 
 	err = g.Wait()
-	for i := range data {
-		fmt.Printf("%#+v\n", data[i].URL)
-	}
+
 	return
 }
 
