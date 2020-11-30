@@ -1,13 +1,13 @@
-Тестовое задание:
-example:
-POST http://localhost:8080/api/v1/handle
-Body:
-[
-    "https://www.twitch.tv",
-    "https://ozon.ru",
-    "https://yandex.ru",
-    "https://github.com",
-    "https://yandex.ru"
+Тестовое задание:   
+example:   
+POST http://localhost:8080/api/v1/handle   
+Body:   
+[   
+    "https://www.twitch.tv",   
+    "https://ozon.ru",   
+    "https://yandex.ru",   
+    "https://github.com",   
+    "https://yandex.ru"   
 ]
 
 - [x] - 1.приложение представляет собой http-сервер с одним хендлером
