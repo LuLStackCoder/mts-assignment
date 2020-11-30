@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/buaazp/fasthttprouter"
@@ -144,7 +145,7 @@ func main() {
 	// 9.сервис должен поддерживать 'graceful shutdown': при получении
 	//сигнала от OS перестать принимать входящие запросы, завершить текущие запросы и остановиться
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	defer func(sig os.Signal) {
 		_ = level.Info(logger).Log("msg", "received signal, exiting", "signal", sig)
 
