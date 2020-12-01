@@ -16,18 +16,15 @@ type URLClient interface {
 	GetData(ctx context.Context, url string) (data []byte, err error)
 }
 
-// Service implements the service logic
-type Service interface {
-	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error)
-}
-
-type service struct {
+// Service implements logic of urls handling
+type Service struct {
 	client  URLClient
 	maxUrls int
 }
 
-func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
-	// check len urls
+// HandleUrls get urls slice and return slice of responses
+func (s *Service) HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error) {
+	// check len urls slice
 	if len(urls) == 0 {
 		err = httperrors.ErrZeroURLs
 		return
@@ -40,7 +37,7 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 
 	// validating urls
 	for i := range urls {
-		_, err = url.Parse(urls[i])
+		_, err = url.ParseRequestURI(urls[i])
 		if err != nil {
 			err = errors.Wrap(httperrors.ErrParseURL, err.Error())
 			return
@@ -71,9 +68,9 @@ func (s *service) HandleUrls(ctx context.Context, urls []string) (data []api.URL
 	return
 }
 
-// NewService constructor
-func NewService(client URLClient, maxUrls int) Service {
-	return &service{
+// NewService ...
+func NewService(client URLClient, maxUrls int) *Service {
+	return &Service{
 		client:  client,
 		maxUrls: maxUrls,
 	}

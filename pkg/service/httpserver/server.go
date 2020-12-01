@@ -9,23 +9,24 @@ import (
 	"github.com/LuLStackCoder/mts-assignment/pkg/api"
 )
 
-type service interface {
+// Service implements logic
+type Service interface {
 	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error)
 }
 
 type handleUrls struct {
 	transport      HandleUrlsTransport
 	timeout        time.Duration
-	service        service
-	errorProcessor errorProcessor
+	service        Service
+	errorProcessor ErrorProcessor
 }
 
 // ServeHTTP implements http.Handler.
 func (s *handleUrls) ServeHTTP(ctx *fasthttp.RequestCtx) {
 	var (
-		urls      []string
-		data      []api.URLData
-		err       error
+		urls []string
+		data []api.URLData
+		err  error
 	)
 	// propagate timeout for request
 	tCtx, cancel := context.WithTimeout(ctx, s.timeout)
@@ -50,7 +51,7 @@ func (s *handleUrls) ServeHTTP(ctx *fasthttp.RequestCtx) {
 }
 
 // NewHandleUrls the server creator
-func NewHandleUrls(transport HandleUrlsTransport, service service, timeout time.Duration, errorProcessor errorProcessor) fasthttp.RequestHandler {
+func NewHandleUrls(transport HandleUrlsTransport, service Service, timeout time.Duration, errorProcessor ErrorProcessor) fasthttp.RequestHandler {
 	ls := handleUrls{
 		transport:      transport,
 		timeout:        timeout,

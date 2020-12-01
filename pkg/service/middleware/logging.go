@@ -1,4 +1,4 @@
-package service
+package middleware
 
 import (
 	"context"
@@ -9,6 +9,11 @@ import (
 
 	"github.com/LuLStackCoder/mts-assignment/pkg/api"
 )
+
+// Service implements server logic
+type Service interface {
+	HandleUrls(ctx context.Context, urls []string) (data []api.URLData, err error)
+}
 
 // loggingMiddleware wraps Service and logs request information to the provided logger
 type loggingMiddleware struct {

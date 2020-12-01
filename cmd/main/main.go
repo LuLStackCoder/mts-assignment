@@ -1,8 +1,6 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,24 +8,17 @@ import (
 	"time"
 
 	"github.com/buaazp/fasthttprouter"
-	fasthttpprometheus "github.com/flf2ko/fasthttp-prometheus"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
-	"github.com/prometheus/client_golang/prometheus"
 	"github.com/valyala/fasthttp"
 
 	"github.com/LuLStackCoder/mts-assignment/pkg/service"
 	"github.com/LuLStackCoder/mts-assignment/pkg/service/httperrors"
 	"github.com/LuLStackCoder/mts-assignment/pkg/service/httpserver"
+	"github.com/LuLStackCoder/mts-assignment/pkg/service/middleware"
 	"github.com/LuLStackCoder/mts-assignment/pkg/urlclient"
 
 	"github.com/kelseyhightower/envconfig"
-)
-
-var (
-	serviceVersion = "dev"
-	methodError    = []string{"method", "error"}
 )
 
 type configuration struct {
@@ -43,29 +34,12 @@ type configuration struct {
 	InTimeout time.Duration `envconfig:"IN_TIMEOUT" default:"10s"`
 	// 8.таймаут на запрос одного url - 500 миллисекунд
 	GetTimeout time.Duration `envconfig:"GET_TIMEOUT" default:"500ms"`
-
-	MetricsNamespace string `envconfig:"METRICS_NAMESPACE" default:"mts"`
-	MetricsSubsystem string `envconfig:"METRICS_SUBSYSTEM" default:"mts_assignment"`
-
-	MetricsNameCount    string `envconfig:"METRICS_NAME_COUNT" default:"request_count"`
-	MetricsNameDuration string `envconfig:"METRICS_NAME_DURATION" default:"request_duration"`
-	MetricsHelpCount    string `envconfig:"METRICS_HELP_COUNT" default:"Request count"`
-	MetricsHelpDuration string `envconfig:"METRICS_HELP_DURATION" default:"Request duration"`
 }
 
 func main() {
-	printVersion := flag.Bool("version", false, "print version and exit")
-	flag.Parse()
-
-	if *printVersion {
-		fmt.Println(serviceVersion)
-		os.Exit(0)
-	}
-
 	// logger
 	logger := log.NewLogfmtLogger(log.NewSyncWriter(os.Stdout))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC, "caller", log.DefaultCaller)
-	_ = level.Info(logger).Log("msg", "initializing", "version", serviceVersion)
 
 	// processing configuration
 	var cfg configuration
@@ -86,51 +60,26 @@ func main() {
 	//  5.сервер не принимает запрос если количество url в нем больше 20
 	// service creation
 	svc := service.NewService(urlClient, cfg.MaxURLs)
-	svc = service.NewLoggingMiddleware(logger, svc)
-	svc = service.NewInstrumentingMiddleware(
-		// expose metrics
-		kitprometheus.NewCounterFrom(
-			prometheus.CounterOpts{
-				Namespace: cfg.MetricsNamespace,
-				Subsystem: cfg.MetricsSubsystem,
-				Name:      cfg.MetricsNameCount,
-				Help:      cfg.MetricsHelpCount,
-			},
-			methodError,
-		),
-		kitprometheus.NewSummaryFrom(
-			prometheus.SummaryOpts{
-				Namespace: cfg.MetricsNamespace,
-				Subsystem: cfg.MetricsSubsystem,
-				Name:      cfg.MetricsNameDuration,
-				Help:      cfg.MetricsHelpDuration,
-			},
-			methodError,
-		),
-		svc,
-	)
+	svcLogged := middleware.NewLoggingMiddleware(logger, svc)
 
 	// creation router
-	var router = new(fasthttprouter.Router)
+	var router = fasthttprouter.New()
 
 	errorProcessor := httperrors.NewErrorProcessor(httperrors.StatusMap)
 
 	// init router
 	httpserver.New(
 		router,
-		svc,
+		svcLogged,
 		// 7.таймаут на обработку одного входящего запроса - 10000 миллисекунд
 		cfg.InTimeout,
 		errorProcessor,
 	)
 
-	p := fasthttpprometheus.NewPrometheus(cfg.MetricsSubsystem)
-	serverHandler := p.WrapHandler(router)
-
 	fasthttpServer := &fasthttp.Server{
 		// 6.сервер не обслуживает больше чем 100 одновременных входящих http-запросов
 		Concurrency:        cfg.MaxSimultaneousConns,
-		Handler:            serverHandler,
+		Handler:            router.Handler,
 		MaxRequestBodySize: cfg.MaxRequestBodySize,
 	}
 

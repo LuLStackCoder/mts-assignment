@@ -32,9 +32,6 @@ func (s *Client) GetData(ctx context.Context, url string) (data []byte, err erro
 	defer resp.Body.Close()
 
 	data, err = ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return
-	}
 
 	return
 }
